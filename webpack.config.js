@@ -34,9 +34,9 @@ module.exports = {
     },
     resolve: {
         alias: {
-            jquery: srcDir + "/js/lib/jquery.min.js"
-            // core: srcDir + "/js/core",
-            // ui: srcDir + "/js/ui"
+            jquery: srcDir + "/js/lib/jquery.min.js",
+            core: srcDir + "/js/core",
+             ui: srcDir + "/js/ui"
         }
     },
     plugins: [
