@@ -1,0 +1,20 @@
+{
+  "project": "hc",
+  "version": "1.0.0",
+  "description": "This is hc !",
+  "author": {
+    "name": "why",
+    "email": "977401500@qq.com"
+  },
+  "first":true,
+  "jurisdiction":"0777",
+  "path":{
+    "src":"./src",
+    "js":"./src/js",
+    "css":"./src/css",
+    "app":"./src/app",
+    "image":"./src/image",
+    "ui":"./src/js/ui",
+    "core":"./src/js/core"
+  }
+}

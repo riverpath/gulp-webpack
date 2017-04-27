@@ -17,7 +17,9 @@ var gulp = require('gulp'),
     spriter = require('gulp-css-spriter'),
     base64 = require('gulp-css-base64'),
     webpack = require('webpack'),
-    webpackConfig = require('./webpack.config.js'),
+    // webpackConfig = require('./webpack.config.js'),
+    fs = require('fs'),
+    config=require('./project.json'),
     connect = require('gulp-connect');
 
 var host = {
@@ -31,7 +33,24 @@ var host = {
 //   os.platform() === 'darwin' ? 'Google chrome' : (
 //   os.platform() === 'win32' ? 'chrome' : 'firefox'));
 
-var pkg = require('./package.json');
+
+//初始化
+gulp.task('init',['init-project'],function() {
+    console.log("Initialization success");
+});
+/*项目构建*/
+gulp.task('init-project',['project-clean'],function() {
+    var con = config.path,jurisdiction=config.jrisdiction;
+    for(var key in con){
+        fs.mkdirSync(con[key],jurisdiction);
+    }
+});
+/*初始化工程环境*/
+gulp.task('project-clean', function() {
+    return gulp.src(['./src'], {read: false})
+        .pipe(clean({force: true}));
+});
+
 
 //将图片拷贝到目标目录
 gulp.task('copy:images', function (done) {
@@ -40,7 +59,7 @@ gulp.task('copy:images', function (done) {
 
 //压缩合并css, css中既有自己写的.less, 也有引入第三方库的.css
 gulp.task('lessmin', function (done) {
-    gulp.src(['src/css/main.less', 'src/css/*.css'])
+    gulp.src(['src/css/*.less', 'src/css/*.css'])
         .pipe(less())
         //这里可以加css sprite 让每一个css合并为一个雪碧图
         //.pipe(spriter({}))
@@ -130,12 +149,12 @@ gulp.task('open', function (done) {
         .on('end', done);
 });
 
-var myDevConfig = Object.create(webpackConfig);
-
-var devCompiler = webpack(myDevConfig);
 
 //引用webpack对js进行操作
 gulp.task("build-js", ['fileinclude'], function(callback) {
+    var webpackConfig = require('./webpack.config.js'),
+      myDevConfig = Object.create(webpackConfig),
+      devCompiler = webpack(myDevConfig);
     devCompiler.run(function(err, stats) {
         if(err) throw new gutil.PluginError("webpack:build-js", err);
         gutil.log("[webpack:build-js]", stats.toString({
