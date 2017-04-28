@@ -62,7 +62,7 @@ gulp.task('lessmin', function (done) {
     gulp.src(['src/css/main.less', 'src/css/*.css'])
         .pipe(less())
         //这里可以加css sprite 让每一个css合并为一个雪碧图
-        //.pipe(spriter({}))
+        .pipe(spriter({}))
         .pipe(concat('style.min.css'))
         .pipe(gulp.dest('dist/css/'))
         .on('end', done);
